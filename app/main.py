@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from app.llm import chat_with_llm
 
 app=FastAPI()
 
@@ -8,8 +9,17 @@ def home():
     "message":"RAG AI system is running"
   }
 
-@app.get("/hello")
-def hello():
+@app.get("/chat")
+def chat(message:str):
+  reply=chat_with_llm(message)
+
   return {
-    "reply":"Hello AI Engineer"
+    "question":message,
+    "answer":reply
   }
+
+# @app.get("/hello")
+# def hello():
+#   return {
+#     "reply":"Hello AI Engineer"
+#   }
