@@ -64,3 +64,10 @@ def ask(question:str):
   """
   result=answer_with_rag(question)
   return result
+
+@app.get("/status")
+def status():
+  """
+  查看知识库状态
+  """
+  return vector_store.get_status()
