@@ -35,6 +35,14 @@ async def upload_pdf(file:UploadFile=File(...)):
   """
   os.makedirs("data",exist_ok=True)
 
+  if vector_store.is_file_processed(file.filename):
+    return{
+      "filename":file.filename,
+      "message":"这个PDF已经上传并处理过，不会重复加入知识库",
+      "skipped":True,
+      "status":vector_store.get_status()
+    }
+
   file_path=f"data/{file.filename}"
 
   with open(file_path,"wb")as buffer:
@@ -47,14 +55,18 @@ async def upload_pdf(file:UploadFile=File(...)):
       "filename":file.filename,
       "message":"PDF上传成功，但没有解析出文本，可能是扫描版PDF"
     }
+  
   chunks=split_text(text)
   vector_store.add_texts(chunks)
+  vector_store.mark_file_processed(file.filename)
 
   return {
     "filename":file.filename,
     "message":"PDF上传成功，已加入知识库",
+    "skipped":False,
     "text_length":len(text),
-    "chunks_count":len(chunks)
+    "chunks_count":len(chunks),
+    "status":vector_store.get_status()
   }
 
 @app.get("/ask")

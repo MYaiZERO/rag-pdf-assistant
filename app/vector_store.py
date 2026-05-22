@@ -10,10 +10,12 @@ class VectorStore:
   def __init__(self):
     self.index=None #保存 FAISS 索引
     self.chunks=[]
+    self.processed_files=set()
 
     self.storage_dir="storage"
     self.index_path=os.path.join(self.storage_dir,"faiss.index")
     self.chunks_path=os.path.join(self.storage_dir,"chunks.pkl")
+    self.files_path=os.path.join(self.storage_dir,"processed_files.pkl")
 
     self.load()
 
@@ -64,10 +66,13 @@ class VectorStore:
     return {
       "index_loaded":self.index is not None,
       "chunks_count":len(self.chunks),
+      "processed_files_count":len(self.processed_files),
+      "processed_files":sorted(list(self.processed_files)),
       "index_path":self.index_path,
       "chunks_path":self.chunks_path,
       "index_saved":os.path.exists(self.index_path),
-      "chunks_saved":os.path.exists(self.chunks_path)
+      "chunks_saved":os.path.exists(self.chunks_path),
+      "files_saved":os.path.exists(self.files_path)
     }
   
   def save(self):
@@ -82,6 +87,9 @@ class VectorStore:
     with open(self.chunks_path,"wb") as f:
       pickle.dump(self.chunks,f)
 
+    with open(self.files_path,"wb")as f:
+      pickle.dump(self.processed_files,f)
+
   def load(self):
     """
     启动项目时，从本地加载FAISS index和chunks
@@ -92,5 +100,28 @@ class VectorStore:
     if os.path.exists(self.chunks_path):
       with open(self.chunks_path,"rb") as f:
         self.chunks=pickle.load(f)
+
+    if os.path.exists(self.files_path):
+      with open(self.files_path,"rb")as f:
+        self.processed_files=pickle.load(f)
+
+  def is_file_processed(self,filename:str) ->bool:
+    """
+    判断某个文件是否已经处理过
+    """
+    return filename in self.processed_files
+  
+  def mark_file_processed(self,filename:str):
+    """
+    记录某个文件已经处理过
+    """
+    self.processed_files.add(filename)
+    self.save()
+
+  def get_processed_files(self)->list[str]:
+    """
+    返回已经处理过的文件列表
+    """
+    return sorted(list(self.processed_files))
 
 vector_store=VectorStore()
