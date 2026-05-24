@@ -1,16 +1,51 @@
 from app.vector_store import vector_store
 from app.llm import chat_with_llm
 
-def build_rag_prompt (question:str,contexts:list[str]) -> str:
+def build_rag_prompt (question:str,contexts:list[dict]) -> str:
   """
   把检索到的资料和用户问题拼成一个prompt
   """
-  context_text="\n\n".join(contexts)
+  context_parts=[]
+
+  for item in contexts:
+    text=item["text"]
+    metadata=item["metadata"]
+
+    source=metadata.get(
+      "source",
+      "未知文件"
+    )
+
+    page=metadata.get(
+      "page",
+      "未知页码"
+    )
+
+    context_parts.append(
+       f"""
+【来源文件】
+{source}
+
+【页码】
+{page}
+
+【内容】
+{text}
+"""
+    )
+
+  context_text="\n\n".join(context_parts)
 
   prompt= f"""
-你是一个知识库问答助手。
-请你只根据下面提供的资料回答用户问题。
-如果资料中没有答案，请回答：根据已上传资料，我暂时无法确定。
+你是一个专业知识库问答助手。
+严格依据提供资料回答。
+
+要求：
+1.只能使用资料中的信息
+2.不允许编造
+3.若资料不足，请明确回答：“根据已上传资料，我暂时无法确定。”
+4.回答使用中文
+5.回答尽量简洁准确
 
 【资料】
 {context_text}
@@ -18,10 +53,6 @@ def build_rag_prompt (question:str,contexts:list[str]) -> str:
 【用户问题】
 {question}
 
-【回答要求】
-1. 用中文回答。
-2. 回答要准确、简洁。
-3. 不要编造资料中没有的信息。
 """
   return prompt
 
@@ -44,8 +75,31 @@ def answer_with_rag(question:str) -> dict:
   prompt=build_rag_prompt(question,contexts)
   answer=chat_with_llm(prompt)
 
+  sources=[]
+
+  for item in contexts:
+    meta=item["metadata"]
+
+    sources.append({
+      "source":meta.get(
+        "source",
+        "未知文件"
+      ),
+
+      "page":meta.get(
+        "page",
+        "未知页码"
+      ),
+
+      "score":round(
+        item["score"],
+        4
+      )   
+    })
+
   return {
     "question":question,
     "answer":answer,
+    "sources":sources,
     "contexts":contexts
   }

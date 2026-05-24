@@ -1,16 +1,18 @@
 from pypdf import PdfReader
 
-def load_pdf_text(file_path:str) -> str:
+def load_pdf_pages(file_path:str) -> list[str]:
   """
-  读取PDF文件，提取里面的文字
+  读取PDF文件，返回每一页文本
   """
   reader=PdfReader(file_path)
 
-  all_text=[]
+  pages=[]
 
   for page in reader.pages:
     text=page.extract_text()
     if text:
-      all_text.append(text)
+      pages.append(
+        text.strip()
+      )
 
-  return "\n".join(all_text)
+  return pages

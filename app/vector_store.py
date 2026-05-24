@@ -19,7 +19,7 @@ class VectorStore:
 
     self.load()
 
-  def add_texts(self,chunks:list[str]):
+  def add_texts(self,chunks:list[str],metadata:list[dict]):
     """
     把文本chunk生成向量，并存入FAISS
     """
@@ -35,7 +35,15 @@ class VectorStore:
       self.index=faiss.IndexFlatIP(dimension)
 
     self.index.add(embeddings)
-    self.chunks.extend(chunks)
+    
+    for text,meta in zip(
+      chunks,
+      metadata
+    ):
+      self.chunks.append({
+        "text":text,
+        "metadata":meta
+      })
 
     self.save()
 
@@ -53,9 +61,30 @@ class VectorStore:
 
     results=[]
 
-    for idx in indices[0]:
-      if idx != -1:
-        results.append(self.chunks[idx])
+    seen=set()#去重检索（MMR思想简化版）
+
+    for score,idx in zip(
+      scores[0],
+      indices[0]
+    ):
+      if idx == -1:
+        continue
+
+      chunk=self.chunks[idx]
+
+      text=chunk["text"]
+
+      short_text=text[:100]
+
+      if short_text in seen:
+        continue
+      seen.add(short_text)
+
+      results.append({
+        "text":chunk["text"],
+        "metadata":chunk["metadata"],
+        "score":float(score)
+      })
 
     return results
   
