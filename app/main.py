@@ -9,7 +9,7 @@ from app.text_splitter import split_text
 from app.vector_store import vector_store
 from app.rag import answer_with_rag,answer_with_rag_debug
 from app.document_summary import list_documents,summarize_document
-
+from app.question_router import classify_question
 
 app=FastAPI()
 
@@ -222,3 +222,74 @@ def summary(filename:Optional[str]=None,batch_size:int=8,max_batches:Optional[in
   )
 
   return result
+
+@app.get("/smart/ask")
+def smart_ask(
+  question:str,
+  filename:Optional[str]=None,
+  top_k:int =3,
+  batch_size:int=8,
+  max_batches:Optional[int]=None
+):
+  """
+  智能问答接口。
+
+  这个接口会自动判断用户问题类型：
+  1. 如果是“总结/概括/这个文档讲了什么”这类问题，就走文档摘要
+  2. 如果是具体知识点问题，就走 RAG 检索问答
+
+  参数:
+  question: 用户问题
+  filename: 指定要总结的文件名。如果知识库只有一个文档，可以不传
+  top_k: RAG 检索时取前几个 chunk
+  batch_size: summary 每批处理多少个 chunk
+  max_batches: summary 最多处理多少批，测试阶段可以设置
+  """
+  route=classify_question(question)
+
+  if route=="summary":
+    documents=list_documents()
+
+    if not documents:
+      return {
+        "route":route,
+        "question":question,
+        "message":"当前知识库还没有文档，请先上传PDF",
+        "documents":[]
+      }
+    
+    if filename is None:
+      if len(documents)==1:
+        filename=documents[0]
+
+      else:
+        return {
+          "route":route,
+          "question": question,
+          "message": "当前知识库中有多个文档，请指定 filename。",
+          "documents": documents
+        }
+      
+    summary_result=summarize_document(
+      filename=filename,
+      batch_size=batch_size,
+      max_batches=max_batches
+    )
+
+    return {
+      "route":route,
+      "question":question,
+      "filename":filename,
+      "result":summary_result
+    }
+  
+  rag_result=answer_with_rag(
+    question=question,
+    top_k=top_k
+  )
+
+  return {
+    "route": route,
+    "question": question,
+    "result": rag_result
+  }
