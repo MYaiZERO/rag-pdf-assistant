@@ -1,0 +1,159 @@
+{
+  "top_k": 3,
+  "total": 5,
+  "hit_count": 5,
+  "hit_rate": 1.0,
+  "mrr": 1.0,
+  "details": [
+    {
+      "id": "q001",
+      "question": "信息最早是由哪些科学技术工作者作为研究对象来探讨的？",
+      "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+      "expected_pages": [
+        74
+      ],
+      "hit": true,
+      "hit_rank": 1,
+      "retrieved": [
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 74,
+          "chunk_id": 0,
+          "score": 0.7405
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 76,
+          "chunk_id": 0,
+          "score": 0.6415
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 79,
+          "chunk_id": 0,
+          "score": 0.5888
+        }
+      ]
+    },
+    {
+      "id": "q002",
+      "question": "信息和消息、信号、数据之间有什么关系？",
+      "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+      "expected_pages": [
+        76
+      ],
+      "hit": true,
+      "hit_rank": 1,
+      "retrieved": [
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 76,
+          "chunk_id": 0,
+          "score": 0.7639
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 74,
+          "chunk_id": 0,
+          "score": 0.7109
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 75,
+          "chunk_id": 0,
+          "score": 0.7014
+        }
+      ]
+    },
+    {
+      "id": "q003",
+      "question": "哈特莱如何理解信息？",
+      "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+      "expected_pages": [
+        78
+      ],
+      "hit": true,
+      "hit_rank": 1,
+      "retrieved": [
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 78,
+          "chunk_id": 0,
+          "score": 0.6794
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 84,
+          "chunk_id": 0,
+          "score": 0.5462
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 77,
+          "chunk_id": 0,
+          "score": 0.542
+        }
+      ]
+    },
+    {
+      "id": "q004",
+      "question": "仅仅把信息看作消息或通信内容有什么缺陷？",
+      "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+      "expected_pages": [
+        84
+      ],
+      "hit": true,
+      "hit_rank": 1,
+      "retrieved": [
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 84,
+          "chunk_id": 0,
+          "score": 0.7751
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 75,
+          "chunk_id": 0,
+          "score": 0.7248
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 77,
+          "chunk_id": 0,
+          "score": 0.6702
+        }
+      ]
+    },
+    {
+      "id": "q005",
+      "question": "机器智能研究中为什么一般不涉及复杂情感？",
+      "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+      "expected_pages": [
+        104
+      ],
+      "hit": true,
+      "hit_rank": 1,
+      "retrieved": [
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 104,
+          "chunk_id": 0,
+          "score": 0.7484
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 72,
+          "chunk_id": 0,
+          "score": 0.6356
+        },
+        {
+          "source": "机器智能-2智能科学技术的基本概念.pdf",
+          "page": 46,
+          "chunk_id": 0,
+          "score": 0.6077
+        }
+      ]
+    }
+  ]
+}

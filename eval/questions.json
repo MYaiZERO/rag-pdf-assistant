@@ -1,0 +1,32 @@
+[
+  {
+    "id": "q001",
+    "question": "信息最早是由哪些科学技术工作者作为研究对象来探讨的？",
+    "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+    "expected_pages": [74]
+  },
+  {
+    "id": "q002",
+    "question": "信息和消息、信号、数据之间有什么关系？",
+    "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+    "expected_pages": [76]
+  },
+  {
+    "id": "q003",
+    "question": "哈特莱如何理解信息？",
+    "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+    "expected_pages": [78]
+  },
+  {
+    "id": "q004",
+    "question": "仅仅把信息看作消息或通信内容有什么缺陷？",
+    "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+    "expected_pages": [84]
+  },
+  {
+    "id": "q005",
+    "question": "机器智能研究中为什么一般不涉及复杂情感？",
+    "expected_source": "机器智能-2智能科学技术的基本概念.pdf",
+    "expected_pages": [104]
+  }
+]
