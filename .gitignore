@@ -1,5 +1,12 @@
 __pycache__/
+
 *.pyc
+*.pkl
+*.index
+
 data/
 .env
 storage/
+
+.vscode/
+.ipynb_checkpoints/

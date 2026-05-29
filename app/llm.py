@@ -1,31 +1,30 @@
-import os 
-
 from openai import OpenAI
-from dotenv import load_dotenv
 
-# 加载.env
-load_dotenv()
+from app.config import (
+  API_KEY,
+  BASE_URL,
+  MODEL,
+  TIMEOUT
+)
 
 # 创建客户端
 client=OpenAI(
-  api_key=os.getenv("API_KEY"),
-  base_url=os.getenv("BASE_URL"),
-
-  timeout=90
+  api_key=API_KEY,
+  base_url=BASE_URL,
+  timeout=TIMEOUT
 )
 
-# 调用大模型
-def chat_with_llm(message:str,temperature:float=0.3,max_tokens:int=1000):
+def chat_with_llm(
+  message:str,
+  temperature:float=0.3,
+  max_tokens:int=1000
+):
   """
-  调用大模型生成回答。
+  调用大模型生成回答
+  """
 
-  参数:
-  message: 传给大模型的用户内容
-  temperature: 生成随机性，越低越稳定
-  max_tokens: 限制模型最多输出多少 token，防止摘要过长或响应太慢
-  """
   response=client.chat.completions.create(
-    model=os.getenv("MODEL"),
+    model=MODEL,
 
     messages=[
       {
@@ -40,7 +39,6 @@ def chat_with_llm(message:str,temperature:float=0.3,max_tokens:int=1000):
 
     temperature=temperature,
     max_tokens=max_tokens
-    
   )
 
   return response.choices[0].message.content
