@@ -96,7 +96,7 @@ Summary Pipeline           RAG Retrieval
 ### 5.1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/MYaiZERO/rag-pdf-assistant.git
 cd rag_project
 ```
 
