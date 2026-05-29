@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 *.pkl
 *.index
+*.sh
 
 data/
 .env
